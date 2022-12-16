@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<p id="demoX" style="display:none"></p>
+<p id="demoY" style="display:none"></p>
+
+<img src="estrella.png" style="display:none" id="estrella">
+<img src="arbol.png" style="display:none" id="arbol">
+<img src="bola.png" style="display:none" id="bola1">
+<img src="bola2.png" style="display:none" id="bola2">
+<img src="bola3.png" style="display:none" id="bola3">
+<img src="bolalgtb.png" style="display:none" id="bola4">
+<img src="fondo.jpg" style="display:none" id="fondo">
+
+<canvas id="myCanvas" onmousemove="mover(event)">
+
+
+</canvas>
+
+<script>
+
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+
+var img_estrella = document.getElementById("estrella");
+var img_arbol = document.getElementById("arbol");
+var img_bola1 = document.getElementById("bola1");
+var img_bola2 = document.getElementById("bola2");
+var img_bola3 = document.getElementById("bola3");
+var img_bola4 = document.getElementById("bola4");
+var fondo = document.getElementById("fondo");
+
+var texto = document.createElement("h2");
+texto.id = "texto";
+texto.innerHTML = "Felices Fiestas te Desea Javier";
+document.body.appendChild(texto);
+
+var mensaje = document.getElementById("texto");
+mensaje.style.display="none";
+
+if(window.innerHeight > window.innerWidth){
+	
+	mensaje.style.color = "gold";
+	mensaje.style.position = "fixed";
+	mensaje.style.top = window.innerHeight*55/100+"px";
+	mensaje.style.left = "20px";
+}
+else{
+
+	mensaje.style.color = "gold";
+	mensaje.style.position = "fixed";
+	mensaje.style.top = window.innerHeight*53/100+"px";
+	mensaje.style.left = window.innerWidth/2.8+"px";
+	mensaje.style.fontSize="xx-large";
+
+}
+
+var bola1 = false;
+
+window.addEventListener("resize", size, false);
+
+var control = false;
+var control2 = false;
+
+var X;
+var Y;
+
+if(window.innerWidth >= window.innerHeight ){
+	
+	X = window.innerWidth/3;
+	Y = window.innerHeight*0.8;
+	
+}
+else{
+	
+	X = window.innerWidth*0.7;
+	Y = window.innerHeight*0.8;
+	
+}
+
+function size (){
+
+	canvas.width = window.innerWidth-20;
+	canvas.height = window.innerHeight-20;
+
+	var bucle = setInterval(draw, 1);
+	
+	
+}
+
+function draw () {
+	
+	ctx.clearRect(0,0, window.innerWidth, window.innerHeight);
+
+	ctx.beginPath();
+		
+	ctx.drawImage(fondo, 0, 0, window.innerWidth,window.innerHeight);
+	ctx.closePath();
+	
+	ctx.beginPath();
+	if(window.innerWidth >= window.innerHeight ){
+	
+		ctx.drawImage(img_arbol,0,window.innerHeight/20,window.innerWidth*45/100,window.innerHeight*0.9 );
+	
+	}
+	else{
+	
+		ctx.drawImage(img_arbol,0,window.innerHeight/8,window.innerHeight*0.8,window.innerHeight*0.8 );
+	
+	}
+	
+	ctx.closePath();
+	
+	var positionX = document.getElementById("demoX").innerHTML;
+	var positionY = document.getElementById("demoY").innerHTML;	
+	
+	canvas.addEventListener("mousedown", () => {
+	
+		if((positionX >= X)&&(positionX <= X + 40)&&(positionY > Y)&&(positionY < Y + 40)){
+		
+			control = true;
+		
+		}
+		else{
+		
+			control = false;
+		
+		}
+	}, false);
+		
+	canvas.addEventListener("mouseup", () => {
+		
+		control = false;	
+		if(window.innerWidth >= window.innerHeight){
+		
+			if((positionX >= window.innerWidth*11/100)&&(positionX <= window.innerWidth*11/100+40)&&(positionY > window.innerHeight*7/100)&&(positionY < window.innerHeight*7/100+40)){
+		
+				X = positionX - 20;
+				Y = positionY - 20;
+			
+				bola1 = true;
+		
+			}
+			else{
+			
+				if(window.innerWidth >= window.innerHeight ){
+	
+					X = window.innerWidth/3;
+					Y = window.innerHeight*0.8;
+	
+				}
+				else{
+	
+					X = window.innerWidth*0.7;
+					Y = window.innerHeight*0.8;
+	
+				}
+			
+				bola1 = false;
+			
+			}
+		
+		}
+		else{
+		
+			if((positionX >= window.innerWidth*26/100)&&(positionX <= window.innerWidth*26/100+40)&&(positionY > window.innerHeight*15/100)&&(positionY < window.innerHeight*15/100+40)){
+		
+				X = positionX - 20;
+				Y = positionY - 20;
+			
+				bola1 = true;
+		
+			}
+			else{
+			
+				if(window.innerWidth >= window.innerHeight ){
+	
+					X = window.innerWidth/3;
+					Y = window.innerHeight*0.8;
+	
+				}
+				else{
+	
+					X = window.innerWidth*0.7;
+					Y = window.innerHeight*0.8;
+	
+				}
+			
+				bola1 = false;
+			
+			}
+		
+		}
+		
+		
+	}, false);
+	
+	document.body.addEventListener("touchstart",(event)=>{
+
+		if(event.target == canvas){
+			event.preventDefault();
+			
+			if((event.targetTouches[0].clientX >= X)&&(event.targetTouches[0].clientX <= X + 40)&&(event.targetTouches[0].clientY > Y)&&(event.targetTouches[0].clientY < Y + 40)){
+		
+				control2 = true;
+		
+			}
+			else{
+		
+				control2 = false;
+		
+			}
+		}
+
+	},false);
+	
+	document.body.addEventListener("touchmove",(event)=>{
+		
+		if(event.target == canvas){
+		
+			if(control2){
+		
+				X = event.targetTouches[0].clientX-30;
+				Y = event.targetTouches[0].clientY-30;
+		
+			}
+			
+		}
+	}, false);
+		
+	document.body.addEventListener("touchend",(event)=>{
+
+		if(event.target == canvas){
+			event.preventDefault();
+			
+			
+			if(window.innerWidth >= window.innerHeight){
+					if((X+30 >= window.innerWidth*11/100)&&(X+30 <= window.innerWidth*11/100+40)&&(Y > window.innerHeight*7/100)&&(Y < window.innerHeight*7/100+40)){
+			
+						bola1 = true;
+		
+					}
+					else{
+			
+						X = window.innerWidth/3;
+						Y = window.innerHeight*0.8;
+						control2 = false;
+						bola1 = false;
+			
+					}
+		
+				}
+				else{
+				
+					if((X >= window.innerWidth*26/100)&&(X <= window.innerWidth*26/100+40)&&(Y > window.innerHeight*15/100)&&(Y < window.innerHeight*15/100+40)){
+				
+						bola1 = true;
+		
+					}
+					else{
+			
+						X = window.innerWidth*0.7;
+						Y = window.innerHeight*0.8;
+						control2 = false;
+						bola1 = false;
+			
+					}
+				
+				}
+		}
+
+	},false);
+	
+	if(control){
+	
+		X = positionX - 20;
+		Y = positionY - 20;
+	
+	}	
+	
+	if(bola1){
+		if(window.innerWidth >= window.innerHeight){
+		
+			ctx.drawImage(img_bola1,window.innerWidth/8,window.innerHeight/2,30,30);
+			ctx.drawImage(img_bola2,window.innerWidth/8,window.innerHeight/2,30,30);
+			ctx.drawImage(img_bola3,window.innerWidth/8.2,window.innerHeight/2.5,30,30);
+			ctx.drawImage(img_bola2,window.innerWidth/7.2,window.innerHeight/2.8,30,30);
+			ctx.drawImage(img_bola4,window.innerWidth/6,window.innerHeight/1.9,30,30);
+			ctx.drawImage(img_bola1,window.innerWidth/7,window.innerHeight/1.6,30,30);
+			ctx.drawImage(img_bola3,window.innerWidth/12,window.innerHeight/1.5,30,30);
+			ctx.drawImage(img_bola1,window.innerWidth/11,window.innerHeight/1.9,30,30);
+		
+		}
+		else{
+		
+			ctx.drawImage(img_bola1,window.innerWidth/3,window.innerHeight/2,30,30);
+			ctx.drawImage(img_bola2,window.innerWidth/3.6,window.innerHeight/1.7,30,30);
+			ctx.drawImage(img_bola3,window.innerWidth/3.1,window.innerHeight/2.5,30,30);
+			ctx.drawImage(img_bola2,window.innerWidth/3.8,window.innerHeight/2.8,30,30);
+			ctx.drawImage(img_bola4,window.innerWidth/5,window.innerHeight/1.9,30,30);
+			ctx.drawImage(img_bola1,window.innerWidth/6,window.innerHeight/1.6,30,30);
+			ctx.drawImage(img_bola3,window.innerWidth/3,window.innerHeight/1.5,30,30);
+			ctx.drawImage(img_bola1,window.innerWidth/2.1,window.innerHeight/1.6,30,30);
+		
+		}
+		
+		
+		if(window.innerHeight > window.innerWidth){
+			ctx.beginPath();
+			ctx.fillStyle = "rgb(255,255,255,.5)";
+			ctx.fill();
+			ctx.fillRect(0,window.innerHeight/2, window.innerWidth, window.innerHeight/4);
+			ctx.closePath();
+		}
+		else{
+		
+			ctx.beginPath();
+			ctx.fillStyle = "rgb(255,255,255,.5)";
+			ctx.fill();
+			ctx.fillRect(window.innerWidth/3,window.innerHeight/2, window.innerWidth/3, window.innerHeight/6);
+			ctx.closePath();
+		
+		}
+		mensaje.style.display = "inline-block";
+	}
+	
+	ctx.beginPath();
+	ctx.drawImage(img_estrella, X, Y, 60, 60);
+	ctx.closePath();
+}
+
+size();
+
+function mover (event){
+
+document.getElementById("demoX").textContent = event.clientX;
+document.getElementById("demoY").textContent = event.clientY;
+
+}
+
+
+
+</script>
+</body>
+</html>
